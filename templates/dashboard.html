@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard - EventEase{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2>Welcome, {{ user.username }} 👋</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    
+
+    <h4 class="mt-4">📅 Your Upcoming Event Registrations</h4>
+
+    {% if upcoming %}
+    <table class="table table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reg in upcoming %}
+            <tr>
+                <td>{{ reg.title }}</td>
+                <td>{{ reg.date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% if reg.status == 'approved' %}
+                        <span class="badge bg-success">✅ Approved</span>
+                    {% elif reg.status == 'pending' %}
+                        <span class="badge bg-warning text-dark">⏳ Pending</span>
+                    {% elif reg.status == 'cancelled' %}
+                        <span class="badge bg-danger">❌ Cancelled</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ reg.status }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="mt-3 text-muted">You have no upcoming event registrations.</p>
+    {% endif %}
+</div>
+{% endblock %}

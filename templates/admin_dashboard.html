@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - EventEase{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Admin Dashboard</h2>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">🏠 Home</a>
+</div>
+
+<a href="{{ url_for('add_event') }}" class="btn btn-success mb-4">➕ Add New Event</a>
+<a href="{{ url_for('registrations') }}" class="btn btn-outline-info mb-3">📋 View Registrations</a>
+{% if events %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for event in events %}
+        <div class="col">
+            <div class="card h-100 shadow-sm p-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event['title'] }}</h5>
+                    <p class="card-text">📅 {{ event['date'] }} | 📍 {{ event['location'] }}</p>
+                    <p>{{ event['description'] }}</p>
+                    <div class="d-flex gap-2">
+                        <a href="{{ url_for('edit_event', event_id=event['id']) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
+                        <form method="POST" action="{{ url_for('delete_event', event_id=event['id']) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">🗑️ Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No events found.</p>
+{% endif %}
+{% endblock %}

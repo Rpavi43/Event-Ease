@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Event - EventEase{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Edit Event</h2>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-primary">🏠 Dashboard</a>
+</div>
+
+<form method="POST" action="{{ url_for('edit_event', event_id=event.id) }}" enctype="multipart/form-data">
+    <input type="hidden" name="event_id" value="{{ event.id }}">
+
+    <div class="mb-3">
+        <label for="title" class="form-label">Event Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{ event.title }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="date" class="form-label">Event Date</label>
+        <input type="date" class="form-control" id="date" name="date" value="{{ event.date }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="location" class="form-label">Event Location</label>
+        <input type="text" class="form-control" id="location" name="location" value="{{ event.location }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Event Description</label>
+        <textarea class="form-control" id="description" name="description" rows="4" required>{{ event.description }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="image" class="form-label">Event Image</label>
+        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+        {% if event.image_path %}
+            <p class="mt-3">Current Image: <img src="{{ url_for('static', filename='images/events/' + event.image_path) }}" width="100"></p>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-success">Save Changes</button>
+</form>
+{% endblock %}
